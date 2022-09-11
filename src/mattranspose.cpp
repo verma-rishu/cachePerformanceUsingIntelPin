@@ -16,14 +16,8 @@ void parsec_roi_end()
 
 }
 
-
-struct Result {
+vector< vector<int> > read(string filename) {
 	vector< vector<int> > inputMatrix;
-};
-
-Result read(string filename) {
-	vector< vector<int> > inputMatrix;
-	Result ab;
 	string line;
 	ifstream infile;
 	infile.open (filename.c_str());
@@ -41,8 +35,7 @@ Result read(string filename) {
 	}
 
 	infile.close();
-	ab.inputMatrix = inputMatrix;
-	return ab;
+	return inputMatrix;
 }
 
 vector< vector<int> > transpose(vector< vector<int> > inputMatrix) {
@@ -78,9 +71,9 @@ int main (int argc, char* argv[]) {
 	} else {
 		filename = argv[2];
 	}
-	Result result = read (filename);
+	vector< vector<int> > inputMatrix = read (filename);
     parsec_roi_begin();
-	vector< vector<int> > transVector = transpose(result.inputMatrix);
+	vector< vector<int> > transVector = transpose(inputMatrix);
     parsec_roi_end();
 	printMatrix(transVector);
 	return 0;
