@@ -47,14 +47,13 @@ Result read(string filename) {
 
 vector< vector<int> > transpose(vector< vector<int> > inputMatrix) {
 	if (inputMatrix.size() == 0)
-        return;
+        return inputMatrix;
 	vector< vector<int> > transVector (inputMatrix[0].size(), vector<int>());
 	for (int i = 0; i < inputMatrix[0].size(); i++) {
 		for (int j = 0; j < inputMatrix[i].size(); j++) {
 				transVector[j].push_back(inputMatrix[i][j]);
 			}
 		}
-	}
 	return transVector;
 }
 
@@ -81,8 +80,8 @@ int main (int argc, char* argv[]) {
 	}
 	Result result = read (filename);
     parsec_roi_begin();
-	vector< vector<int> > transpose = transpose(result.inputMatrix);
+	vector< vector<int> > transVector = transpose(result.inputMatrix);
     parsec_roi_end();
-	printMatrix(transpose);
+	printMatrix(transVector);
 	return 0;
 }
