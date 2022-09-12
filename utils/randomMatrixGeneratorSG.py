@@ -23,9 +23,11 @@ def createRandomMatrix(n):
 
 def create2DIndexMatrix(n, indexN):
     matrix = []
+    nonDuplicateMatrix = []
     for i in range(indexN):
-        matrix.append([random.randint(0, n) for el in range(2)])
-    return matrix
+        matrix.append([random.randint(0, n-1) for el in range(2)])
+    nonDuplicateMatrix = list(set(map(lambda i: tuple(sorted(i)), matrix)))
+    return nonDuplicateMatrix
 
 
 def saveMatrix(matrixA, matrixB, filename):
@@ -42,14 +44,14 @@ def saveMatrix(matrixA, matrixB, filename):
             f.write("\t".join(map(str, line)) + "\n")
 
 
-def saveCSRMatrix(CSR_matrix, filename, lines):
+def saveCSRMatrix(CSR_matrix, filename):
     if os.path.exists(filename): 
         os.remove(filename)
     else:   
         print("New file created: ",filename)
 
     f = open(filename,"w")
-    f.write(str(lines))
+    f.write(str(args.n))
     f.write("\n")
     for row, col in zip(*CSR_matrix.nonzero()):
         val = CSR_matrix[row,col]
@@ -88,19 +90,19 @@ def main():
         #print(matrixA_csr)
         matrixA = flatA.tolist()
         csr_Amatrix = "csrA_"+args.dump
-        saveCSRMatrix(matrixA_csr, csr_Amatrix, n)
+        saveCSRMatrix(matrixA_csr, csr_Amatrix)
   
     #Replace random x %element to 0 in matrixB
     matrixB = np.asarray(matrixB)
     flatB  = matrixB.flatten()
     #Reshape it back to square matrix    
-    flatB = flatB.reshape(indexN,2)
+    flatB = flatB.reshape(len(matrixB),2)
     print(flatB)
     #print(matrixA_csr)
     matrixB_csr = sparse.csr_matrix(flatB)
     matrixB = flatB.tolist()
     csr_Bmatrix = "csrB_"+args.dump
-    saveCSRMatrix(matrixB_csr, csr_Bmatrix, indexN)
+    saveCSRMatrix(matrixB_csr, csr_Bmatrix)
     saveMatrix(matrixA, matrixB, args.dump)
 
 if __name__ == '__main__':

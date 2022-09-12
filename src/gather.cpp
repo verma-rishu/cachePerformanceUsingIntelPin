@@ -64,12 +64,11 @@ vector<int> gather(vector< vector<int> > inputData,
 									vector< vector<int> > indexVector) {
 	int n = inputData.size();
 	int indexN = indexVector.size();
+  cout <<"size of indexVector "<<indexN<<endl; 
 	// initialise C with 0s
 	vector<int> output;
-	for (unsigned i = 0; i < indexN; i++) {
-		for (int j = 0; j < 2; j++) {
-			output.push_back(inputData[i][j]);
-		}
+	for (int i = 0; i < indexN; i++) {
+		output.push_back(inputData[indexVector[i][0]][indexVector[i][1]]);
 	}
 	return output;
 }
@@ -77,7 +76,7 @@ vector<int> gather(vector< vector<int> > inputData,
 void printMatrix(vector<int> matrix) {
 	vector<int>::iterator it;
 	for (it=matrix.begin(); it != matrix.end(); it++) {
-			cout << *it;
+			cout << *it << " ";
 		}
 		cout << endl;
 }
