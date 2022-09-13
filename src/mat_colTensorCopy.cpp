@@ -38,16 +38,16 @@ vector< vector<int> > read(string filename) {
 	return inputMatrix;
 }
 
-vector< vector<int> > transpose(vector< vector<int> > inputMatrix) {
+vector< vector<int> > colCopy(vector< vector<int> > inputMatrix) {
 	if (inputMatrix.size() == 0)
         return inputMatrix;
-	vector< vector<int> > transVector (inputMatrix[0].size(), vector<int>());
+	vector< vector<int> > colCopy (inputMatrix[0].size(), vector<int>());
 	for (size_t i = 0; i < inputMatrix[0].size(); i++) {
 		for (size_t j = 0; j < inputMatrix[i].size(); j++) {
-				transVector[j].push_back(inputMatrix[i][j]);
+				colCopy[j].push_back(inputMatrix[j][i]);
 			}
 		}
-	return transVector;
+	return colCopy;
 }
 
 void printMatrix(vector< vector<int> > matrix) {
@@ -73,8 +73,8 @@ int main (int argc, char* argv[]) {
 	}
 	vector< vector<int> > inputMatrix = read (filename);
     parsec_roi_begin();
-	vector< vector<int> > transVector = transpose(inputMatrix);
+	vector< vector<int> > copiedMatrix = colCopy(inputMatrix);
     parsec_roi_end();
-	printMatrix(transVector);
+	printMatrix(copiedMatrix);
 	return 0;
 }
