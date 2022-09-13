@@ -64,7 +64,6 @@ vector<int> gather(vector< vector<int> > inputData,
 									vector< vector<int> > indexVector) {
 	int n = inputData.size();
 	int indexN = indexVector.size();
-  cout <<"size of indexVector "<<indexN<<endl; 
 	// initialise C with 0s
 	vector<int> output;
 	for (int i = 0; i < indexN; i++) {
