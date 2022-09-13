@@ -46,7 +46,7 @@ Result read(string filename) {
 	}
 
 	i = 0;
-	while (getline(infile, line)) {
+	while (getline(infile, line) && !line.empty()) {
 		istringstream iss(line);
 		gatherIndexVector.resize(gatherIndexVector.size() + 1);
 		int a;
@@ -59,7 +59,7 @@ Result read(string filename) {
 	}
 
 	i = 0;
-	while (getline(infile, line)) {
+	while (getline(infile, line) && !line.empty()) {
 		istringstream iss(line);
 		scatterIndexVector.resize(scatterIndexVector.size() + 1);
 		int a;
@@ -71,17 +71,15 @@ Result read(string filename) {
 		i++;
 	}
 
-	i = 0;
-	while (getline(infile, line)) {
+	while (getline(infile, line) && !line.empty()) {
 		istringstream iss(line);
-		gatherMatrix.resize(gatherMatrix.size() + 1);
+		//gatherMatrix.resize(gatherMatrix.size() + 1);
 		int a;
-		// int j = 0;
+		int j=0;
 		while (iss >> a) {
 			gatherMatrix.push_back(a);
-			// j++;
+			j++;
 		}
-		i++;
 	}
 
 	infile.close();
@@ -96,8 +94,6 @@ vector< vector<int> > scatter(vector< vector<int> > inputData,
 									vector< vector<int> > scatterIndexVector, vector< int> gatherMatrix) {
 	int n = inputData.size();
 	int indexN = scatterIndexVector.size();
- 	cout <<"size of scatterIndexVector "<<indexN<<endl; 
-	// initialise C with 0s
 	vector<int> output;
 	for (int i = 0; i < indexN; i++) {
 		inputData[scatterIndexVector[i][0]][scatterIndexVector[i][1]] = gatherMatrix [i];

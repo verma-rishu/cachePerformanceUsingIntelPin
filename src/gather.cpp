@@ -19,11 +19,15 @@ void parsec_roi_end()
 
 struct Result {
 	vector< vector<int> > inputData;
-	vector< vector<int> > indexVector;
+	vector< vector<int> > gatherIndexVector;
+	vector< vector<int> > scatterIndexVector;
+	vector< int > gatherMatrix;
+
 };
 
 Result read(string filename) {
-	vector< vector<int> > inputData, indexVector;
+	vector< vector<int> > inputData, gatherIndexVector, scatterIndexVector;
+	vector< int > gatherMatrix;
 	Result gatherInput;
 	string line;
 	ifstream infile;
@@ -42,21 +46,46 @@ Result read(string filename) {
 	}
 
 	i = 0;
-	while (getline(infile, line)) {
+	while (getline(infile, line) && !line.empty()) {
 		istringstream iss(line);
-		indexVector.resize(indexVector.size() + 1);
+		gatherIndexVector.resize(gatherIndexVector.size() + 1);
 		int a;
 		int j = 0;
 		while (iss >> a) {
-			indexVector[i].push_back(a);
+			gatherIndexVector[i].push_back(a);
 			j++;
 		}
 		i++;
 	}
 
+	i = 0;
+	while (getline(infile, line) && !line.empty()) {
+		istringstream iss(line);
+		scatterIndexVector.resize(scatterIndexVector.size() + 1);
+		int a;
+		int j = 0;
+		while (iss >> a) {
+			scatterIndexVector[i].push_back(a);
+			j++;
+		}
+		i++;
+	}
+
+	while (getline(infile, line) && !line.empty()) {
+		istringstream iss(line);
+		int a;
+		int j=0;
+		while (iss >> a) {
+			gatherMatrix.push_back(a);
+			j++;
+		}
+	}
+
 	infile.close();
 	gatherInput.inputData = inputData;
-	gatherInput.indexVector = indexVector;
+	gatherInput.gatherIndexVector = gatherIndexVector;
+	gatherInput.scatterIndexVector = scatterIndexVector;
+	gatherInput.gatherMatrix = gatherMatrix;
 	return gatherInput;
 }
 
@@ -90,7 +119,7 @@ int main (int argc, char* argv[]) {
 	}
 	Result result = read (filename);
     parsec_roi_begin();
-	vector<int> output = gather(result.inputData, result.indexVector);
+	vector<int> output = gather(result.inputData, result.gatherIndexVector);
     parsec_roi_end();
 	printMatrix(output);
 	return 0;
