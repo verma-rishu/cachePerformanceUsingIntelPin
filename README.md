@@ -3,7 +3,7 @@
 CSE530 (Assignment-1)
 
 For generating matrices:-
-python utils/random_matrix_generator.py --n 100 --dump input_matrix.in --sparsity 100
+python utils/randomMatrixGeneratorSG.py --n <sizeOfMatrix> --dump input_matrix.in --sparsity <sparsity>
 
 For running kernel and simulator:-
 source run_kernel.sh
